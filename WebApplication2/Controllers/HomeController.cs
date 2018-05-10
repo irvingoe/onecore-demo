@@ -1,0 +1,156 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Principal;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using WebApplication2.Models;
+using BCrypt.Net;
+
+namespace WebApplication2.Controllers
+{
+    public class HomeController : Controller
+    {
+        public DBEntities db { get; private set; }
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [CheckAuthorization]
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        //GET: EnsureLoggedOut
+        private void EnsureLoggedOut()
+        {
+            // If the request is (still) marked as authenticated we send the user to the logout action
+            if (Request.IsAuthenticated)
+                Logout();
+        }
+
+        private ActionResult RedirectToLocal(string returnURL = "")
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(returnURL) && Url.IsLocalUrl(returnURL))
+                    return Redirect(returnURL);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        //POST: Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout()
+        {
+            try
+            {
+                // First we clean the authentication ticket like always
+                //required NameSpace: using System.Web.Security;
+                FormsAuthentication.SignOut();
+
+                // Second we clear the principal to ensure the user does not retain any authentication
+                //required NameSpace: using System.Security.Principal;
+                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+                Session.Clear();
+                System.Web.HttpContext.Current.Session.RemoveAll();
+
+                // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+                // this clears the Request.IsAuthenticated flag since this triggers a new request
+                return RedirectToLocal();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginVM entity)
+        {
+            
+            try
+            {
+                using (db = new DBEntities())
+                {
+                    // Ensure we have a valid viewModel to work with
+                    if (!ModelState.IsValid)
+                        return View(entity);
+
+                    var userInfo = db.Usuarios.Where(s => s.usuario1 == entity.usuario.Trim()).FirstOrDefault();
+
+                    bool isLogin = BCrypt.Net.BCrypt.Verify(entity.contrasena, userInfo.contrasena);
+
+                    if (isLogin)
+                    {
+                        FormsAuthentication.SetAuthCookie(entity.usuario, true);
+
+                        //Set A Unique ID in session
+                        Session["UserID"] = userInfo.usuario1;
+
+                        // If we got this far, something failed, redisplay form
+                        // return RedirectToAction("Index", "Dashboard");
+                        return RedirectToLocal(entity.ReturnURL);
+                    }
+                    else
+                    {
+                        //Login Fail
+                        TempData["ErrorMSG"] = "Credenciales incorrectas.";
+                        return View(entity);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult Login(string returnURL)
+        {
+            var infoUsuario = new LoginVM();
+            try
+            {
+                EnsureLoggedOut();
+
+                infoUsuario.ReturnURL = returnURL;
+
+                return View(infoUsuario);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public JsonResult GetUsuarios()
+        {
+            var result = db.Usuarios.ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+    }
+}

@@ -1,0 +1,60 @@
+﻿@*@model WebApplication2.Models.LoginVM
+    @{
+       // Layout = null;
+    }
+
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(s => s.ReturnURL)
+
+        <h1>Login Functionality In MVC</h1>
+            <div>
+
+                @if (TempData["ErrorMSG"] != null)
+                {
+                    <label style="color:maroon;"> @TempData["ErrorMSG"] </label>
+                    <br /><br />
+                }
+
+                @Html.TextBoxFor(s => s.usuario, new { @placeholder = "Usuario" })
+                <br /> <br />
+                @Html.PasswordFor(s => s.contrasena, new { @placeholder = "Contraseña" })
+                @Html.ValidationMessageFor(m => m.contrasena, "", new { @class = "error" })
+                <br /> <br />
+                @Html.PasswordFor(s => s.confirmaContrasena, new { @placeholder = "Confirma contraseña" })
+                @Html.ValidationMessageFor(m => m.confirmaContrasena, "", new { @class = "error" })
+                <br /> <br />
+
+                <button type="submit">Login</button>
+            </div>
+    }*@
+<div ng-controller="login">
+    <form novalidate class="simple-form">
+        <label>Name: <input type="text" ng-model="user.name" /></label><br />
+        <label>E-mail: <input type="email" ng-model="user.email" /></label><br />
+        Best Editor: <label><input type="radio" ng-model="user.preference" value="vi" />vi</label>
+        <label><input type="radio" ng-model="user.preference" value="emacs" />emacs</label><br />
+        <input type="button" ng-click="reset()" value="Reset" />
+        <input type="submit" ng-click="update(user)" value="Save" />
+    </form>
+    <pre>user = {{user | json}}</pre>
+    <pre>master = {{master | json}}</pre>
+</div>
+
+@*<script>
+    angular.module('formExample', [])
+        .controller('ExampleController', ['$scope', function ($scope) {
+            $scope.master = {};
+
+            $scope.update = function (user) {
+                $scope.master = angular.copy(user);
+            };
+
+            $scope.reset = function () {
+                $scope.user = angular.copy($scope.master);
+            };
+
+            $scope.reset();
+        }]);
+</script>*@
