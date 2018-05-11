@@ -8,9 +8,6 @@ using System.Web.Security;
 using WebApplication2.Models;
 using SimpleCrypto;
 using BCrypt.Net;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Data.Entity.Validation;
 
 namespace WebApplication2.Controllers
 {
@@ -173,8 +170,7 @@ namespace WebApplication2.Controllers
                         sexo = s.sexo,
                         fechaCreacion = s.fechaCreacion
                     }).ToList();
-                    string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
-                    return Content(jsonResult, "application/json"); 
+                    return Json(result, JsonRequestBehavior.AllowGet); 
                 }
             }
             catch (Exception ex)
