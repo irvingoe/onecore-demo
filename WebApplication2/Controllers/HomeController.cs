@@ -8,7 +8,7 @@ using System.Web.Security;
 using WebApplication2.Models;
 using SimpleCrypto;
 using BCrypt.Net;
-
+using System.Data.Entity.Validation;
 
 namespace WebApplication2.Controllers
 {
@@ -165,7 +165,7 @@ namespace WebApplication2.Controllers
                         sexo = s.sexo,
                         fechaCreacion = s.fechaCreacion
                     }).ToList();
-                    return Json(result, JsonRequestBehavior.AllowGet); 
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
@@ -206,8 +206,18 @@ namespace WebApplication2.Controllers
                     }
                 }
             }
-            catch
+            catch (DbEntityValidationException e)
             {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
                 throw;
             }
         }
