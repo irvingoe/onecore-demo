@@ -6,9 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebApplication2.Models;
+using SimpleCrypto;
 using BCrypt.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 
 namespace WebApplication2.Controllers
 {
@@ -91,7 +93,7 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginVM entity)
         {
-            
+
             try
             {
                 using (db = new DBEntities())
@@ -181,6 +183,33 @@ namespace WebApplication2.Controllers
                 throw;
             }
 
+        }
+
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Usuario usuario)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+
+                usuario.contrasena = hashedPassword;
+
+                db.Usuarios.Add(usuario);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(usuario);
+            }
         }
     }
 }
