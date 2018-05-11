@@ -1,9 +1,8 @@
-﻿angular.module('formExample')
-
-    .controller('login', login);
-
+﻿angular
+    .module("formExample")
+    .controller("login", login);
 // Inject my dependencies
-login.$inject = ['$scope', '$http'];
+login.$inject = ["$scope", "$http"];
 
 // Now create our controller function with all necessary logic
 function login($scope, $http) {
