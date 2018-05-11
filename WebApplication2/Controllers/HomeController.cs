@@ -173,7 +173,8 @@ namespace WebApplication2.Controllers
                         sexo = s.sexo,
                         fechaCreacion = s.fechaCreacion
                     }).ToList();
-                    return Json(result, JsonRequestBehavior.AllowGet); 
+                    string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
+                    return Content(jsonResult, "application/json");
                 }
             }
             catch (Exception ex)
