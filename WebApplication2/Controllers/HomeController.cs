@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using WebApplication2.Models;
 using BCrypt.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace WebApplication2.Controllers
 {
@@ -147,13 +149,19 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetUsuarios()
+        public ContentResult GetUsuarios()
         {
 
             try
             {
                 using (db = new DBEntities())
                 {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+
+                    
+
                     var result = db.Usuarios.Select(s => new
                     {
                         recid = s.id,
@@ -163,7 +171,8 @@ namespace WebApplication2.Controllers
                         sexo = s.sexo,
                         fechaCreacion = s.fechaCreacion
                     }).ToList();
-                    return Json(result, JsonRequestBehavior.AllowGet); 
+                    string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
+                    return Content(jsonResult, "application/json"); 
                 }
             }
             catch (Exception ex)
