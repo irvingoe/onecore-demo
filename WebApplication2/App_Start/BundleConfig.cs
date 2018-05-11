@@ -11,6 +11,13 @@ namespace WebApplication2
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.js"));
 
+            bundles.Add(new StyleBundle("~/Content/w2uicss").Include(
+                      "~/Content/w2ui.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/w2uijs").Include(
+                "~/Scripts/w2ui.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -31,7 +38,7 @@ namespace WebApplication2
                       "~/Content/site.css"));
 
             const string ANGULAR_APP_ROOT = "~/Scripts/app/";
-            const string VIRTUAL_BUNDLE_PATH = ANGULAR_APP_ROOT + "main.js";
+            const string VIRTUAL_BUNDLE_PATH = "~/bundles/onecore";
 
             var scriptBundle = new ScriptBundle(VIRTUAL_BUNDLE_PATH)
                 .Include(ANGULAR_APP_ROOT + "app.js")
