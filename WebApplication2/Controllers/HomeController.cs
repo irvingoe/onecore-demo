@@ -167,20 +167,29 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Usuario usuario)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+                using (db = new DBEntities())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
 
-                usuario.contrasena = hashedPassword;
+                        usuario.contrasena = hashedPassword;
 
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                        db.Usuarios.Add(usuario);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return View(usuario);
+                    }
+                }
             }
-            else
+            catch
             {
-                return View(usuario);
+                throw;
             }
         }
     }
