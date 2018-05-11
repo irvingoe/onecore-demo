@@ -146,10 +146,31 @@ namespace WebApplication2.Controllers
             }
         }
 
+        [HttpGet]
         public JsonResult GetUsuarios()
         {
-            var result = db.Usuarios.ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
+
+            try
+            {
+                using (db = new DBEntities())
+                {
+                    var result = db.Usuarios.Select(s => new
+                    {
+                        recid = s.id,
+                        correoElectronico = s.correoElectronico,
+                        usuario = s.usuario1,
+                        estatus = s.estatus,
+                        sexo = s.sexo,
+                        fechaCreacion = s.fechaCreacion
+                    }).ToList();
+                    return Json(result, JsonRequestBehavior.AllowGet); 
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
     }
