@@ -8,6 +8,9 @@ using System.Web.Security;
 using WebApplication2.Models;
 using SimpleCrypto;
 using BCrypt.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Data.Entity.Validation;
 
 namespace WebApplication2.Controllers
 {
