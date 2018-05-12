@@ -10,9 +10,10 @@
 ];
 
 $(function () {
+    //Para tratar los objetos de w2ui como JSON y no strings
+    w2utils.settings.dataType = 'JSON'
     $('#grid').w2grid({
         name: 'grid',
-        method: 'GET',
         show: {
             toolbar: true,
             footer: true,
