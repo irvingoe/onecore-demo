@@ -3238,8 +3238,8 @@ w2utils.event = {
             'search-go': { type: 'drop',  id: 'w2ui-search-advanced', icon: 'w2ui-icon-search', text: 'Search', tooltip: 'Open Search Fields' },
             'add'      : { type: 'button', id: 'w2ui-add', text: 'Add New', tooltip: 'Add new record', icon: 'w2ui-icon-plus' },
             'edit'     : { type: 'button', id: 'w2ui-edit', text: 'Edit', tooltip: 'Edit selected record', icon: 'w2ui-icon-pencil', disabled: true },
-            'delete'   : { type: 'button', id: 'w2ui-delete', text: 'Delete', tooltip: 'Delete selected records', icon: 'w2ui-icon-cross', disabled: true },
-            'save'     : { type: 'button', id: 'w2ui-save', text: 'Save', tooltip: 'Save changed records', icon: 'w2ui-icon-check' }
+            'delete'   : { type: 'button', id: 'w2ui-delete', text: 'Desactivar', tooltip: 'Desactivar usuarios seleccionados', icon: 'w2ui-icon-cross', disabled: true },
+            'save'     : { type: 'button', id: 'w2ui-save', text: 'Guardar', tooltip: 'Guardar cambios', icon: 'w2ui-icon-check' }
         },
 
         operators: { // for search fields
@@ -5435,7 +5435,7 @@ w2utils.event = {
         // ===================================================
         // --  Action Handlers
 
-        save: function () {
+        save: function (event) {
             var obj = this;
             var changes = this.getChanges();
             // event before

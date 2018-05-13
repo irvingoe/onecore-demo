@@ -16,6 +16,7 @@ namespace WebApplication2.Models
 
         public string offset { get; set; }
         //{"cmd":"get","selected":[],"limit":100,"offset":0}
+        public List<wUsuario> changes { get; set; }
 
-}
+    }
 }
