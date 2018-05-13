@@ -38,7 +38,7 @@ $(function () {
             {
                 field: 'estatus', caption: 'Estado', size: '15%', sortable: true, resizable: true,
                 render: function (record) {
-                    return '<div>' + record.estatus ? 'Activo' : 'Inactivo' + '</div>';
+                    return '<div>' + (record.estatus ? 'Activo' : 'Inactivo') + '</div>';
                 }
             },
             {
