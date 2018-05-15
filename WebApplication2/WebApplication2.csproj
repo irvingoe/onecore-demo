@@ -180,6 +180,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ErrorVM.cs" />
     <Compile Include="Models\LoginVM.cs" />
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
