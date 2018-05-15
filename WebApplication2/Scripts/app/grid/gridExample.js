@@ -66,7 +66,7 @@ $(function () {
                 var change = changes[i];
                 if (change.hasOwnProperty('correoElectronico')) {
                     if (!w2utils.isEmail(change.correoElectronico)) {
-                        errors.push(change.correoElectronico + " no es un email valido \n");
+                        errors.push(change.correoElectronico + " no es un email valido<br>");
                     }
                 }
             }
