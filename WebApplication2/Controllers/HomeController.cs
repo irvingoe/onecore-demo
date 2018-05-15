@@ -11,6 +11,7 @@ using BCrypt.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Data.Entity.Validation;
+using Newtonsoft.Json.Linq;
 
 namespace WebApplication2.Controllers
 {
@@ -217,34 +218,49 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        //public ActionResult Create(Usuario usuario)
-        public JsonResult AjaxMethod(string user)
+        public ActionResult Create(Usuario usuario)
+        //public JsonResult AjaxMethod(string user)
         //public ActionResult Create(string user)
         {
             try
             {
-                //hay q googlear como se deserializa xD
-                //Usuario usuario = JsonConvert.DeserializeObject<Usuario>(user);
                 using (db = new DBEntities())
                 {
                     if (ModelState.IsValid)
                     {
-                        Usuario usuario = JsonConvert.DeserializeObject<Usuario>(user);
-
-
                         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+                        ////Usuario usuario = JsonConvert.DeserializeObject<Usuario>(user);
 
-                        usuario.contrasena = hashedPassword;
 
+                        //var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+
+                        //usuario.contrasena = hashedPassword;
                         db.Usuarios.Add(usuario);
                         db.SaveChanges();
-                        return Json(usuario);
-                        //return RedirectToAction("Index");
+                        ////Usuario usuario = JsonConvert.DeserializeObject<Usuario>(user);
+
+
+                        //var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+
+                        //usuario.contrasena = hashedPassword;
+
+                        ////Usuario usuario = JsonConvert.DeserializeObject<Usuario>(user);
+
+
+                        //var hashedPassword = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
+
+                        //usuario.contrasena = hashedPassword;
+
+
+                        //db.Usuarios.Add(usuario);
+                        //db.SaveChanges();
+                        //return Json(usuario);
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        return Json(null);
+
+                        return View(usuario);
                     }
                 }
             }

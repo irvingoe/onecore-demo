@@ -5,7 +5,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" ng-controller="addUser">
+    <div class="form-horizontal" ng-controller="user">
         <h4>Crear usuario</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -13,16 +13,16 @@
 
         <div class="form-group">
 
-            <label>Usuario: <input type="text" ng-model="user.usuario1" /></label><br />
-            <label>E-mail: <input type="email" ng-model="user.correoElectronico" /></label><br />
-            <label>Contraseña: <input type="text" ng-model="user.contrasena" /></label><br />
-            <label>Sexo: <input type="checkbox" ng-model="user.sexo" /></label><br />
-            <label>Fecha de creación: <input type="text" ng-model="user.fechaCreacion" /></label><br />
+            <label>Usuario: <input type="text" ng-model="usuario.usuario1" /></label><br />
+            <label>E-mail: <input type="email" ng-model="usuario.correoElectronico" /></label><br />
+            <label>Contraseña: <input type="text" ng-model="usuario.contrasena" /></label><br />
+            <label>Sexo: <input type="checkbox" ng-model="usuario.sexo" /></label><br />
+            <label>Fecha de creación: <input type="text" ng-model="usuario.fechaCreacion" /></label><br />
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" ng-click="CreateUser(user)" class="btn btn-default" />
+                <input type="submit" value="Create" ng-click="CreateUser(usuario)" class="btn btn-default" />
             </div>
         </div>
     </div>

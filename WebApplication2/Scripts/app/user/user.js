@@ -1,44 +1,45 @@
 ﻿angular
     .module("formExample")
-    .controller("addUser", , function ($scope, $http, $window) {
-        addUser.$inject = ["$scope", "$http"];
+    .controller("user", user);
 
-        $scope.addUser = function () {
-            $scope.user = {};
-            $scope.CreateUser = function () {
+user.$inject = ["$scope", "$http"];
 
-                debugger
-                var usuario = {
-                    "correoElectronico": $scope.correoElectronico,
-                    "usuario1": $scope.usuario1,
-                    "contrasena": $scope.contrasena,
-                    "estatus": $scope.estatus,
-                    "sexo": $scope.sexo,
-                    "fechaCreacion": $scope.fechaCreacion
-                }
-
-
-                var post = $http({
-                    method: "POST",
-                    url: "/Home/Create",
-                    dataType: 'json',
-                    data: { user: usuario },
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                post.success(function (data, status) {
-                    $window.alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
-                });
-
-                post.error(function (data, status) {
-                    $window.alert(data.Message);
-                });
-            }
+function user($scope, $http) {
+    $scope.usuario = {};
+    $scope.CreateUser = function () {
+        console.log($scope.usuario);
+        var usuario = {
+            "correoElectronico": $scope.usuario.correoElectronico,
+            "usuario1": $scope.usuario.usuario1,
+            "contrasena": $scope.usuario.contrasena,
+            "estatus": $scope.usuario.estatus,
+            "sexo": $scope.usuario.sexo,
+            "fechaCreacion": $scope.usuario.fechaCreacion
         }
 
-    });
+        var p = $http.post("/Home/Create", usuario)
+            .then(function (data, status, headers, config) {
+                console.log("success");
+            }, function (data, status, headers, config) {
+                console.log("error");
+            });
+        //var post = $http({
+        //    method: "POST",
+        //    url: "/Home/Create",
+        //    data: {
+        //        user: usuario
+        //    }
+        //});
 
+        //post.success(function (data, status) {
+        //    $window.alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
+        //});
 
+        //post.error(function (data, status) {
+        //    $window.alert(data.Message);
+        //});
+    };
+}
 
 //var app = angular.module('formExample', [])
 //app.controller('addUser', function ($scope, $http, $window) {
@@ -104,5 +105,3 @@
 //        return obj;
 
 //    }
-
-
