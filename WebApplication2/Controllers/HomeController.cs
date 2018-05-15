@@ -151,31 +151,56 @@ namespace WebApplication2.Controllers
             }
         }
 
-        [HttpGet]
-        public ContentResult GetUsuarios()
+        [HttpPost]
+        public ContentResult GetUsuarios(w2uiCommandVM request)
         {
 
             try
             {
-                using (db = new DBEntities())
+                switch (request.cmd)
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    case "get":
+                    default:
+                        using (db = new DBEntities())
+                        {
+                            JsonSerializer serializer = new JsonSerializer();
+                            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                            serializer.NullValueHandling = NullValueHandling.Ignore;
 
-                    
 
-                    var result = db.Usuarios.Select(s => new
-                    {
-                        recid = s.id,
-                        correoElectronico = s.correoElectronico,
-                        usuario = s.usuario1,
-                        estatus = s.estatus,
-                        sexo = s.sexo,
-                        fechaCreacion = s.fechaCreacion
-                    }).ToList();
-                    string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
-                    return Content(jsonResult, "application/json");
+
+                            var result = db.Usuarios.Select(s => new
+                            {
+                                recid = s.id,
+                                correoElectronico = s.correoElectronico,
+                                usuario = s.usuario1,
+                                estatus = s.estatus,
+                                sexo = s.sexo,
+                                fechaCreacion = s.fechaCreacion
+                            }).ToList();
+                            string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
+                            return Content(jsonResult, "application/json");
+                        }
+                    case "delete":
+                        using (db = new DBEntities())
+                        {
+                            JsonSerializer serializer = new JsonSerializer();
+                            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                            serializer.NullValueHandling = NullValueHandling.Ignore;
+                            var registros = db.Usuarios.Where(x => request.selected.Contains(x.id)).ToList();
+                            registros.ForEach(r => r.estatus = false);
+                            db.SaveChanges();
+                            var result = registros.Select(n => new
+                            {
+                                recid = n.id,
+                                correoElectronico = n.correoElectronico,
+                                usuario = n.usuario1,
+                                estatus = n.estatus,
+                                sexo = n.sexo
+                            });
+                            string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
+                            return Content(jsonResult, "application/json");
+                        }
                 }
             }
             catch (Exception ex)
