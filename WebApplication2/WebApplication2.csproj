@@ -232,6 +232,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\user\user.js" />
     <Content Include="Scripts\app\grid\gridExample.js" />
     <Content Include="Scripts\app\login\login.js" />
     <Content Include="Scripts\bootstrap.js" />
