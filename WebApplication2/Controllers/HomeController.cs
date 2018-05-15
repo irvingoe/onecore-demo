@@ -11,7 +11,6 @@ using BCrypt.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Data.Entity.Validation;
-using Newtonsoft.Json.Linq;
 
 namespace WebApplication2.Controllers
 {
