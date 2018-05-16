@@ -217,10 +217,10 @@ namespace WebApplication2.Controllers
 
                                 foreach (Usuario u in registros)
                                 {
-                                    wUsuario cambio = cambios.Single(w => w.recid == u.id);
+                                    wUsuario cambio = cambios.Single(w => w.recid== u.id);
                                     if (cambio.usuario != null)
                                     {
-                                        if (db.Usuarios.Any(a => a.usuario1 == cambio.usuario))
+                                        if(db.Usuarios.Any(a => a.usuario1 == cambio.usuario))
                                         {
                                             errores.Add(String.Format("El usuario {0} ya existe", cambio.usuario));
                                         }
@@ -254,7 +254,7 @@ namespace WebApplication2.Controllers
                                 //    estatus = n.estatus,
                                 //    sexo = n.sexo
                                 //});
-                                if (errores.Count > 0)
+                                if(errores.Count > 0)
                                 {
                                     error.message = String.Join(Environment.NewLine, errores.Select(a => String.Join("<br>", a)));
                                     jsonResult = JsonConvert.SerializeObject(error, new JavaScriptDateTimeConverter());
@@ -267,7 +267,6 @@ namespace WebApplication2.Controllers
                                 return Content(jsonResult, "application/json");
                             }
                         }
-
                 }
             }
             catch (Exception ex)

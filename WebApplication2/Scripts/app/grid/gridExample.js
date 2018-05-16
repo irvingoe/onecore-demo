@@ -83,6 +83,6 @@ $(function () {
                 this.error(errors.join(''));
                 event.preventDefault();
             }
-    }
+        }
     });
 });
