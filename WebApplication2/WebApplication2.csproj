@@ -186,6 +186,7 @@
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\w2uiCommandVM.cs" />
+    <Compile Include="Models\W2UIList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1027,7 +1028,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Consulta.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Home\Create.cshtml" />

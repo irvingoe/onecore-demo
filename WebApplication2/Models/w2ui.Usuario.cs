@@ -11,7 +11,7 @@ namespace WebApplication2.Models
 
         public string usuario { get; set; }
 
-        public string sexo { get; set; }
+        public W2UIList sexo { get; set; }
 
         public DateTime fechaCreacion { get; set; }
 

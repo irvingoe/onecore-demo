@@ -19,6 +19,11 @@ namespace WebApplication2.Controllers
     {
         public DBEntities db { get; private set; }
 
+        public ActionResult Consulta()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -239,7 +244,7 @@ namespace WebApplication2.Controllers
 
                                     if (cambio.sexo != null)
                                     {
-                                        u.sexo = cambio.sexo;
+                                        u.sexo = cambio.sexo.text;
                                         db.SaveChanges();
                                     }
 
