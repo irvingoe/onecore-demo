@@ -43,7 +43,11 @@ $(function () {
             },
             {
                 field: 'sexo', caption: 'Sexo', size: '25%', sortable: true, resizable: true,
-                editable: { type: 'text' }
+                editable: {
+                    filter: false,
+                    type: 'list',
+                    items: ['Masculino', 'Femenino']
+                }
             }
         ]
         //,
@@ -66,7 +70,12 @@ $(function () {
                 var change = changes[i];
                 if (change.hasOwnProperty('correoElectronico')) {
                     if (!w2utils.isEmail(change.correoElectronico)) {
-                        errors.push(change.correoElectronico + " no es un email valido \n");
+                        errors.push("<strong>" + change.correoElectronico + "</strong> no es un email valido <br>");
+                    }
+                }
+                if (change.hasOwnProperty('usuario')) {
+                    if (change.usuario.length < 10) {
+                        errors.push("El usuario <strong>" + change.usuario + "</strong> no cumple con la longitud minima de 10 caracteres." + "<br>");
                     }
                 }
             }
@@ -74,12 +83,6 @@ $(function () {
                 this.error(errors.join(''));
                 event.preventDefault();
             }
-            //if (!w2utils.isEmail(event.value_new)) {
-            //    //console.log(record);
-            //    record.w2ui = null;
-            //    this.refresh();
-            //    this.error(event.value_new + " no es un email valido");
-            //}
-        }
+    }
     });
 });

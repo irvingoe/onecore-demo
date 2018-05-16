@@ -201,6 +201,73 @@ namespace WebApplication2.Controllers
                             string jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
                             return Content(jsonResult, "application/json");
                         }
+                    case "save":
+                        {
+                            using (db = new DBEntities())
+                            {
+                                string jsonResult = "";
+                                JsonSerializer serializer = new JsonSerializer();
+                                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                                serializer.NullValueHandling = NullValueHandling.Ignore;
+                                ErrorVM error = new ErrorVM();
+                                List<int> seleccionados = request.changes.Select(s => s.recid).ToList();
+                                var registros = db.Usuarios.Where(x => seleccionados.Contains(x.id)).ToList();
+                                List<wUsuario> cambios = request.changes;
+                                List<string> errores = new List<string>();
+
+                                foreach (Usuario u in registros)
+                                {
+                                    wUsuario cambio = cambios.Single(w => w.recid == u.id);
+                                    if (cambio.usuario != null)
+                                    {
+                                        if (db.Usuarios.Any(a => a.usuario1 == cambio.usuario))
+                                        {
+                                            errores.Add(String.Format("El usuario {0} ya existe", cambio.usuario));
+                                        }
+                                        else
+                                        {
+                                            u.usuario1 = cambio.usuario;
+                                            db.SaveChanges();
+                                            //Cerrar sesion o no?
+                                        }
+                                    }
+                                    if (cambio.correoElectronico != null)
+                                    {
+                                        u.correoElectronico = cambio.correoElectronico;
+                                        db.SaveChanges();
+                                    }
+
+                                    if (cambio.sexo != null)
+                                    {
+                                        u.sexo = cambio.sexo;
+                                        db.SaveChanges();
+                                    }
+
+
+                                }
+                                //db.SaveChanges();
+                                //var result = registros.Select(n => new
+                                //{
+                                //    recid = n.id,
+                                //    correoElectronico = n.correoElectronico,
+                                //    usuario = n.usuario1,
+                                //    estatus = n.estatus,
+                                //    sexo = n.sexo
+                                //});
+                                if (errores.Count > 0)
+                                {
+                                    error.message = String.Join(Environment.NewLine, errores.Select(a => String.Join("<br>", a)));
+                                    jsonResult = JsonConvert.SerializeObject(error, new JavaScriptDateTimeConverter());
+                                }
+                                else
+                                {
+                                    var result = new { status = "success" };
+                                    jsonResult = JsonConvert.SerializeObject(result, new JavaScriptDateTimeConverter());
+                                }
+                                return Content(jsonResult, "application/json");
+                            }
+                        }
+
                 }
             }
             catch (Exception ex)
